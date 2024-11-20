@@ -1,0 +1,15 @@
+import Header from "../components/Header";
+import { Outlet } from "react-router-dom";
+
+function RootLayout() {
+  return (
+    <>
+      <Header />
+      <main className="max-w-7xl mx-auto">
+        <Outlet />
+      </main>
+    </>
+  );
+}
+
+export default RootLayout;
