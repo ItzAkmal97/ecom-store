@@ -30,7 +30,7 @@ function ProductsPage() {
   }
 
   return (
-    <div className="px-4 py-8">
+    <div className="px-4 py-8 max-w-7xl mx-auto gap-12">
       {/* Products Grid */}
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
         {products &&

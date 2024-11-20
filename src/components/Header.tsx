@@ -1,11 +1,28 @@
 import { NavLink } from "react-router-dom";
 import { Menu, X, ShoppingCart, User } from "lucide-react";
+import { useState } from "react";
 
 function Header() {
+
+  const [isScroll, setIsScroll] = useState(false);
+
+  const handleHeaderShadow = () => {
+    if (window.scrollY > 0) {
+      setIsScroll(true);
+    } else {
+      setIsScroll(false);
+    }
+  }
+
+  window.addEventListener("scroll", handleHeaderShadow)
+
+  const cssClass = "sticky top-0 p-6 bg-white z-50"
+  const cssShadowClass = "shadow-md transition duration-600 ease-out"
+
   return (
-    <header className="sticky top-0 p-6 bg-white z-40 max-w-7xl mx-auto">
+    <header className={ isScroll ? `${cssClass} ${cssShadowClass}` : `${cssClass}`}>
      
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
           {/* Mobile Menu Button - Left on mobile */}
           <label htmlFor="nav-toggle" className="lg:hidden cursor-pointer z-50">
             <Menu className="h-8 w-8" />
