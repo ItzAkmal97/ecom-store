@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface Product  {
  id: number;
@@ -11,39 +11,46 @@ interface Product  {
 
 interface ProductState {
   products: Product[];
-  loading: boolean;
-  error: string | null;
+  status: string;
+  error: string | null | undefined;
 }
 
 const initialState: ProductState = {
   products: [],
-  loading: false,
+  status: 'idle',
   error: null,
 };
+
+export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
+    const response = await fetch("https://dummyjson.com/products");
+
+    if(!response.ok){
+        throw new Error("Failed to fetch products");
+    }
+
+    const resData = await response.json();
+
+    return resData;
+})
 
 const ProductSlice = createSlice({
     name: 'products',
     initialState,
-    reducers: {
-        fetchProductsStart: (state) => {
-            state.loading = true;
-        },
-        fetchProductsSuccess: (state, action: PayloadAction<Product[]>) => {
-            state.loading = false;
-            state.error = null;
-            state.products = action.payload
-
-        },
-
-        fetchProductsFailure: (state, action: PayloadAction<string | null>) =>{
-            state.loading = false;
-            state.error = action.payload
-        }
+    reducers: {} ,
+    extraReducers: (builder) => {
+        builder.addCase(fetchProducts.pending, (state) => {
+            state.status = "loading"
+        }).addCase(fetchProducts.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.products = action.payload.products;
+        }).addCase(fetchProducts.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message
+        })
     }
 
 })
 
-export const {fetchProductsStart, fetchProductsSuccess, fetchProductsFailure} = ProductSlice.actions;
 export default ProductSlice.reducer;
 
 

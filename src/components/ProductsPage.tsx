@@ -1,19 +1,23 @@
 import { useEffect } from "react";
-import { fetchProducts } from "../thunks/productThunk";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
+import { AppDispatch } from "../store/store";
+import {fetchProducts} from '../features/productsSlice';
 
 function ProductsPage() {
-  const { products, loading, error } = useSelector(
-    (state: RootState) => state.products
-  );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const products = useSelector((state: RootState) => state.products.products);
+  const status = useSelector((state: RootState) => state.products.status);
+  const error = useSelector((state: RootState) => state.products.error);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    if(status === 'idle'){
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, status]);
 
-  if (loading) {
+  if (status === "loading") {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
         <p className="text-3xl font-semibold text-gray-800">Loading...</p>
@@ -21,7 +25,7 @@ function ProductsPage() {
     );
   }
 
-  if (error) {
+  if (status === 'failed') {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
         <p className="text-3xl font-semibold text-red-600">Error: {error}</p>
@@ -42,7 +46,7 @@ function ProductsPage() {
               <img
                 src={product.thumbnail}
                 alt={product.title}
-                className="w-96 h-96 object-cover shadow-lg mb-4" // Changed object-contain to object-cover
+                className="w-96 h-96 object-cover shadow-lg mb-4"
               />
               <h2 className="text-2xl font-bold mb-4">{product.title}</h2>
               <p className="text-2xl font-semibold mb-4">${product.price}</p>
