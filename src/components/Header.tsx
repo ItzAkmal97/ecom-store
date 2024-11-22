@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
-import { Menu, X, ShoppingCart, User } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
+import  CartIcon  from "./CartIcon";
+import { CartPanel } from "./CartPanel";
 
 function Header() {
 
@@ -84,7 +86,7 @@ function Header() {
             
             {/* Cart Toggle Button */}
             <label htmlFor="cart-toggle" className="cursor-pointer">
-              <ShoppingCart className="h-6 w-6" />
+              <CartIcon />
             </label>
           </div>
         </div>
@@ -173,7 +175,7 @@ function Header() {
 
             {/* Cart Content */}
             <div className="mt-16">
-              <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
+             <CartPanel />
               {/* Add your cart content here */}
             </div>
           </div>

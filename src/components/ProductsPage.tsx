@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { AppDispatch } from "../store/store";
 import { fetchProducts } from "../features/productsSlice";
+import { addToCart } from "../features/cartSlice";
 
 function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -63,7 +64,7 @@ function ProductsPage() {
                 </p>
 
                 <div className="mt-auto">
-                  <button className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-8 w-full transition-colors duration-200">
+                  <button onClick={() => dispatch(addToCart(product))} className="bg-black hover:bg-gray-800 text-white font-medium py-3 px-8 w-full transition-colors duration-200">
                     Add to Cart
                   </button>
                 </div>
