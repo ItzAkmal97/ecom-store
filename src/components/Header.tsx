@@ -16,13 +16,13 @@ function Header() {
 
   window.addEventListener("scroll", handleHeaderShadow)
 
-  const cssClass = "sticky top-0 p-6 bg-white z-50"
+  const cssClass = "sticky top-0 bg-white z-50"
   const cssShadowClass = "shadow-md transition duration-600 ease-out"
 
   return (
     <header className={ isScroll ? `${cssClass} ${cssShadowClass}` : `${cssClass}`}>
      
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <div className="flex items-center justify-between max-w-7xl mx-auto p-6"> 
           {/* Mobile Menu Button - Left on mobile */}
           <label htmlFor="nav-toggle" className="lg:hidden cursor-pointer z-50">
             <Menu className="h-8 w-8" />
