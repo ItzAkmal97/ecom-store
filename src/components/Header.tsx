@@ -74,7 +74,7 @@ function Header() {
           {/* Account and Cart Controls */}
           <div className="flex items-center gap-12">
             <NavLink
-              to="/Account"
+              to="/login"
               className={({ isActive }) =>
                 `text-xl hover:underline transition duration-400 hidden lg:block ${
                   isActive ? "underline" : ""
