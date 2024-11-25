@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Mail } from "lucide-react";
 import * as yup from "yup";
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword} from "firebase/auth";
+import { auth } from "../util/firebaseConfig";
 
 type LoginData = {
   email: string;
@@ -21,15 +24,17 @@ function LoginPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
-    alert("User Logged in Successfully");
+  const onSubmit = (data: LoginData) => {
+    try {
+      const userCredentials = signInWithEmailAndPassword(auth, data.email, data.password);
+    }
   };
   return (
     <div className="px-4 py-16">
       <h1 className="text-center text-3xl md:text-4xl mt-8 mb-4">Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6 mt-8 md:flex md:flex-row md:justify-around">
-          <div className="flex flex-col gap-4 items-start justify-between w-full md:w-1/2">
+          <div className="flex flex-col gap-2 justify-between w-full md:w-1/2">
             <h2 className="text-2xl font-semibold mb-4">Log In</h2>
             <input
               type="email"
@@ -55,7 +60,23 @@ function LoginPage() {
             >
               Sign In
             </button>
+
+            <div className="flex items-center gap-4">
+              <div className="h-px bg-gray-300 flex-1"></div>
+              <span className="text-gray-500 font-medium">OR</span>
+              <div className="h-px bg-gray-300 flex-1"></div>
+            </div>
+
+            <button
+              type="button"
+              className="flex w-full items-start justify-center gap-2 hover:bg-black hover:text-white border border-black font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out"
+            >
+              <Mail size={20} />
+              Sign up with Google
+            </button>
           </div>
+
+          
 
           <div className="flex flex-col gap-6 items-start md:max-w-lg">
             <h2 className="text-2xl mt-6 font-bold">New Customer</h2>
