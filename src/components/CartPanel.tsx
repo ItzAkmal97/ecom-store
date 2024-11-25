@@ -9,13 +9,13 @@ export const CartPanel = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full">
             <p className="text-gray-500">Your cart is empty</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-4 pr-2">
             {items.map((item) => (
               <div key={item.id} className="flex p-4 border-b">
                 <img
@@ -50,7 +50,7 @@ export const CartPanel = () => {
           </div>
         )}
       </div>
-      
+
       {items.length > 0 && (
         <div className="border-t p-4">
           <div className="flex justify-between items-center mb-4">
