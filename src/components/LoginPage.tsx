@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Mail } from "lucide-react";
 import * as yup from "yup";
-import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword} from "firebase/auth";
-import { auth } from "../util/firebaseConfig";
+// import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword} from "firebase/auth";
+// import { auth } from "../util/firebaseConfig";
 
 type LoginData = {
   email: string;
@@ -25,9 +25,9 @@ function LoginPage() {
   });
 
   const onSubmit = (data: LoginData) => {
-    try {
-      const userCredentials = signInWithEmailAndPassword(auth, data.email, data.password);
-    }
+    // try {
+    //   const userCredentials = signInWithEmailAndPassword(auth, data.email, data.password);
+    // }
   };
   return (
     <div className="px-4 py-16">
