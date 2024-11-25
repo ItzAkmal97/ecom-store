@@ -97,7 +97,7 @@ function Header() {
                     }`
                   }
                 >
-                  Home
+                  Products
                 </NavLink>
               </li>
               <li>

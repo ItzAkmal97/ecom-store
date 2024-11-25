@@ -1,7 +1,10 @@
+import AboutPage from "../components/AboutPage"
 
 function About() {
   return (
-    <div>About</div>
+    <div>
+      <AboutPage />
+    </div>
   )
 }
 
