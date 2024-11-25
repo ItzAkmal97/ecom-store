@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 function LoginPage() {
   return (
     <div className="px-4">
-      <h1 className="text-center text-2xl md:text-5xl mt-8 mb-4">
+      <h1 className="text-center text-2xl md:text-4xl mt-8 mb-4">
         Log In
       </h1>
       <form>
@@ -34,11 +34,11 @@ function LoginPage() {
           promotions. To opt out, click unsubscribe in our emails.
         </p>
 
-        <button
-          className="bg-black text-white font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out"
-        >
-          <NavLink to={"/signup"}>Register</NavLink>
-        </button>
+        <NavLink to={"/signup"}>
+          <button className="bg-black text-white font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out mt-4">
+            Register
+          </button>
+        </NavLink>
         </div>
         
         </div>
