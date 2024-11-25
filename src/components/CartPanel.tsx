@@ -1,7 +1,7 @@
 import { Plus, Minus, Trash2  } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
-import { addToCart, removeFromCart, clearCart, increaseQuantity } from "../features/cartSlice";
+import {  removeFromCart, clearCart, increaseQuantity } from "../features/cartSlice";
 
 export const CartPanel = () => {
   const dispatch = useDispatch();
