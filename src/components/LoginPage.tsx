@@ -24,7 +24,7 @@ function LoginPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: LoginData) => {
+  const onSubmit = () => {
     // try {
     //   const userCredentials = signInWithEmailAndPassword(auth, data.email, data.password);
     // }
