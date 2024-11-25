@@ -62,7 +62,7 @@ function Header() {
 
         {/* Account and Cart Controls */}
         <div className="flex items-center gap-12">
-          <NavLink to="/Account" className="hidden lg:block">
+          <NavLink to="/login" className="hidden lg:block">
             <User className="h-6 w-6" />
           </NavLink>
           <label htmlFor="cart-toggle" className="cursor-pointer">
@@ -113,7 +113,7 @@ function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/Account">
+                <NavLink to="/login">
                   <User className="h-6 w-6" />
                 </NavLink>
               </li>

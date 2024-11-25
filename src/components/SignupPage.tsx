@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 function SignupPage() {
   return (
-    <div className="px-4 md:flex md:flex-col justify-center items-center">
-      <h1 className="text-center text-2xl md:text-4xl mt-8 mb-4">Register</h1>
-      <form className="flex flex-col gap-6 mt-16 w-full md:w-1/2">
+    <div className="px-4 sm:flex sm:flex-col sm:justify-center sm:items-center py-16">
+      <h1 className="text-center text-3xl md:text-4xl mt-8 mb-4">Register</h1>
+      <form className="flex flex-col gap-6 mt-8 max-w-[500px]">
         <h2 className="text-2xl font-semibold mb-4">Register</h2>
 
         <input
@@ -30,7 +30,7 @@ function SignupPage() {
           className="h-14 w-full border focus:border-black transition duration-500 ease-in-out p-2 rounded-md"
         />
 
-        <p className="text-gray-500">
+        <p className="text-gray-500 font-semibold">
           Sign up for early Sale access plus tailored new arrivals, trends and
           promotions. To opt out, click unsubscribe in our emails.
         </p>
@@ -42,14 +42,12 @@ function SignupPage() {
           Register
         </button>
 
-        <div className="hover:bg-black hover:text-white border border-black font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out">
+        
         <NavLink to={"/login"}>
-          <button className="w-full">
+          <button className="w-full h-full hover:bg-black hover:text-white border border-black font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out">
             Login
           </button>
         </NavLink>
-        </div>
-        
       </form>
     </div>
   );

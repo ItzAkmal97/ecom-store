@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 function LoginPage() {
   return (
-    <div className="px-4">
-      <h1 className="text-center text-2xl md:text-4xl mt-8 mb-4">
+    <div className="px-4 py-16">
+      <h1 className="text-center text-3xl md:text-4xl mt-8 mb-4">
         Log In
       </h1>
       <form>
-        <div className="flex flex-col gap-6 mt-16 md:flex md:flex-row md:justify-around">
+        <div className="flex flex-col gap-6 mt-8 md:flex md:flex-row md:justify-around">
           <div className="flex flex-col gap-4 items-start justify-between w-full md:w-1/2">
           <h2 className="text-2xl font-semibold mb-4">Log In</h2>
         <input
@@ -29,7 +29,7 @@ function LoginPage() {
         
         <div className="flex flex-col gap-6 items-start md:max-w-lg">
         <h2 className="text-2xl mt-6 font-bold">New Customer</h2>
-        <p>
+        <p className="text-gray-500 font-semibold">
           Sign up for early Sale access plus tailored new arrivals, trends and
           promotions. To opt out, click unsubscribe in our emails.
         </p>
