@@ -12,9 +12,8 @@ function App() {
       element: <RootLayout />,
       errorElement: <Error />,
       children: [
-        { path: "/", element: <Home /> },
+        { path: "/", element: <Products /> },
         { path: "/About", element: <About /> },
-        { path: "/products", element: <Products /> },
       ],
     },
   ]);

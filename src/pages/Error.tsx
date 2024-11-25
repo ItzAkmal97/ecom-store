@@ -7,7 +7,7 @@ function Error() {
         <h1 className="text-5xl font-bold text-stone-600">Something’s not right.</h1>
         <p className="text-stone-600 font-semibold">We can’t find the page you're are looking for.</p>
         <Link to={'/'}>
-        <button className="bg-stone-500 hover:bg-stone-700 text-white font-bold py-4 px-6 rounded-full mt-4">Back to Homepage</button>
+        <button className="bg-stone-500 hover:bg-stone-700 text-white font-bold py-4 px-6 rounded-full mt-4">Back to Products</button>
         </Link>
     
       </div>

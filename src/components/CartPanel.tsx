@@ -1,7 +1,7 @@
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, Trash2  } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
-import { addToCart, removeFromCart } from "../features/cartSlice";
+import { addToCart, removeFromCart, clearCart, increaseQuantity } from "../features/cartSlice";
 
 export const CartPanel = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export const CartPanel = () => {
                     </button>
                     <span className="mx-2">{item.quantity}</span>
                     <button
-                      onClick={() => dispatch(addToCart(item))}
+                      onClick={() => dispatch(increaseQuantity(item))}
                       className="p-1 hover:bg-gray-100 rounded"
                     >
                       <Plus className="h-4 w-4" />
@@ -57,9 +57,15 @@ export const CartPanel = () => {
             <span className="font-medium">Total</span>
             <span className="font-medium">${totalAmount.toFixed(2)}</span>
           </div>
+          <div className="flex justify-between gap-4">
           <button className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200">
             Checkout
           </button>
+          <button onClick={() => dispatch(clearCart())}>
+            <Trash2 size={30}/>
+          </button>
+          </div>
+          
         </div>
       )}
     </div>
