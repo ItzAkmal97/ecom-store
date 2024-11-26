@@ -2,15 +2,24 @@ import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-// import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword} from "firebase/auth";
-// import { auth } from "../util/firebaseConfig";
+import Toast from "./Toast";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../util/firebaseConfig";
+import { useState } from "react";
 
 type LoginData = {
   email: string;
   password: string;
 };
 function LoginPage() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastColor, setToastColor] = useState("");
+
+  const navigate = useNavigate();
+
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().required(),
@@ -24,14 +33,49 @@ function LoginPage() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
-    // try {
-    //   const userCredentials = signInWithEmailAndPassword(auth, data.email, data.password);
-    // }
+  const onSubmit = async (data: LoginData) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      if (userCredentials.user) {
+        setShowToast(true);
+        setToastMessage("Login successful");
+        setToastColor("bg-green-500 text-green-900 border-green-600");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
+    } catch (error: unknown | any) {
+      console.error(error instanceof Error, error.message);
+
+      if (error.code === "auth/invalid-credential") {
+        setToastMessage("Invalid email or password, please try again");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setShowToast(true);
+      } else {
+        setToastMessage("Login failed");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setShowToast(true);
+      }
+    }
   };
   return (
     <div className="px-4 py-16 max-w-7xl mx-auto">
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          colors={toastColor}
+          onClose={() => setShowToast(false)}
+          isVisible={showToast}
+        />
+      )}
       <h1 className="text-center text-3xl md:text-4xl mb-12">Log In</h1>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6 md:flex md:flex-row md:justify-between md:items-center md:gap-16">
           {/* Login Form */}
@@ -77,8 +121,7 @@ function LoginPage() {
             </button>
           </div>
 
-          
-            {/* New Customer Form */}
+          {/* New Customer Form */}
           <div className="flex flex-col gap-4 w-full">
             <h2 className="text-2xl mt-6 font-semibold">New Customer</h2>
             <p className="text-gray-500 font-semibold">
@@ -97,5 +140,4 @@ function LoginPage() {
     </div>
   );
 }
-
 export default LoginPage;

@@ -6,6 +6,8 @@ import * as yup from "yup";
 import { auth } from "../util/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Mail } from "lucide-react";
+import Toast from "./Toast";
+import { useState } from "react";
 
 type SignupData = {
   email: string;
@@ -14,6 +16,9 @@ type SignupData = {
 };
 
 function SignupPage() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastColor, setToastColor] = useState("");
   const navigate = useNavigate();
 
   const schema = yup.object().shape({
@@ -60,17 +65,45 @@ function SignupPage() {
       );
 
       if (userCredential.user) {
-        navigate("/login");
+        setShowToast(true);
+        setToastMessage("Registration successful");
+        setToastColor("bg-green-500 text-green-900 border-green-600");
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       }
     } catch (error: any) {
-      alert("An error occured while registering, Try Again");
       console.error(error instanceof Error, error.message);
+
+      if (error.code === "auth/email-already-in-use") {
+        setToastMessage("Email already in use");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setShowToast(true);
+      } else if (error.code === "auth/invalid-email") {
+        setToastMessage("Invalid email");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setShowToast(true);
+      } else {
+        setToastMessage("Registration failed");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setShowToast(true);
+      }
     }
+
     reset();
   };
 
   return (
     <div className="px-4 sm:flex sm:flex-col sm:justify-center sm:items-center py-16">
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          isVisible={showToast}
+          onClose={() => setShowToast(false)}
+          colors={toastColor}
+        />
+      )}
       <h1 className="text-center text-3xl md:text-4xl mb-12">Register</h1>
       <form
         className="flex flex-col gap-4 mt-8 max-w-[500px]"
