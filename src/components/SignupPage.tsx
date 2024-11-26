@@ -77,15 +77,15 @@ function SignupPage() {
       console.error(error instanceof Error, error.message);
 
       if (error.code === "auth/email-already-in-use") {
-        setToastMessage("Email already in use");
+        setToastMessage("Email Already In Use");
         setToastColor("bg-red-500 text-red-900 border-red-600");
         setShowToast(true);
       } else if (error.code === "auth/invalid-email") {
-        setToastMessage("Invalid email");
+        setToastMessage("Invalid Email");
         setToastColor("bg-red-500 text-red-900 border-red-600");
         setShowToast(true);
       } else {
-        setToastMessage("Registration failed");
+        setToastMessage("Registration Failed");
         setToastColor("bg-red-500 text-red-900 border-red-600");
         setShowToast(true);
       }

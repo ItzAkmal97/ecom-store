@@ -54,11 +54,11 @@ function LoginPage() {
       console.error(error instanceof Error, error.message);
 
       if (error.code === "auth/invalid-credential") {
-        setToastMessage("Invalid email or password, please try again");
+        setToastMessage("Invalid Email or Password, Please Try Again");
         setToastColor("bg-red-500 text-red-900 border-red-600");
         setShowToast(true);
       } else {
-        setToastMessage("Login failed");
+        setToastMessage("Login Failed");
         setToastColor("bg-red-500 text-red-900 border-red-600");
         setShowToast(true);
       }
