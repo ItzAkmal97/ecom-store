@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { auth } from "../util/firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Mail } from "lucide-react";
 
 type SignupData = {
   email: string;
@@ -69,8 +70,8 @@ function SignupPage() {
   };
 
   return (
-    <div className="h-screen px-4 sm:flex sm:flex-col sm:justify-center sm:items-center py-16">
-      <h1 className="text-center text-3xl md:text-4xl">Register</h1>
+    <div className="px-4 sm:flex sm:flex-col sm:justify-center sm:items-center py-16">
+      <h1 className="text-center text-3xl md:text-4xl mb-12">Register</h1>
       <form
         className="flex flex-col gap-4 mt-8 max-w-[500px]"
         onSubmit={handleSubmit(onSubmit)}
@@ -127,6 +128,20 @@ function SignupPage() {
             Login
           </button>
         </NavLink>
+
+        <div className="flex items-center gap-4">
+          <div className="h-px bg-gray-300 flex-1"></div>
+          <span className="text-gray-500 font-medium">OR</span>
+          <div className="h-px bg-gray-300 flex-1"></div>
+        </div>
+
+        <button
+          type="button"
+          className="flex w-full items-start justify-center gap-2 hover:bg-black hover:text-white border border-black font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out"
+        >
+          <Mail size={20} />
+          Start with Google
+        </button>
       </form>
     </div>
   );

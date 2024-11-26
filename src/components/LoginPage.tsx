@@ -30,11 +30,12 @@ function LoginPage() {
     // }
   };
   return (
-    <div className="px-4 py-16">
-      <h1 className="text-center text-3xl md:text-4xl mt-8 mb-4">Log In</h1>
+    <div className="px-4 py-16 max-w-7xl mx-auto">
+      <h1 className="text-center text-3xl md:text-4xl mb-12">Log In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-6 mt-8 md:flex md:flex-row md:justify-around">
-          <div className="flex flex-col gap-2 justify-between w-full md:w-1/2">
+        <div className="flex flex-col gap-6 md:flex md:flex-row md:justify-between md:items-center md:gap-16">
+          {/* Login Form */}
+          <div className="flex flex-col gap-4 justify-between w-full ">
             <h2 className="text-2xl font-semibold mb-4">Log In</h2>
             <input
               type="email"
@@ -77,9 +78,9 @@ function LoginPage() {
           </div>
 
           
-
-          <div className="flex flex-col gap-6 items-start md:max-w-lg">
-            <h2 className="text-2xl mt-6 font-bold">New Customer</h2>
+            {/* New Customer Form */}
+          <div className="flex flex-col gap-4 w-full">
+            <h2 className="text-2xl mt-6 font-semibold">New Customer</h2>
             <p className="text-gray-500 font-semibold">
               Sign up for early Sale access plus tailored new arrivals, trends
               and promotions. To opt out, click unsubscribe in our emails.
