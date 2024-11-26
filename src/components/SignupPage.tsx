@@ -4,7 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { auth } from "../util/firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup,
+  GoogleAuthProvider, } from "firebase/auth";
 import { Mail } from "lucide-react";
 import Toast from "./Toast";
 import { useState } from "react";
@@ -55,6 +56,37 @@ function SignupPage() {
   } = useForm<SignupData>({
     resolver: yupResolver(schema),
   });
+
+  const handleGoogleAuth = async () => {
+    try {
+      const userGoogleAuth = await signInWithPopup(
+        auth,
+        new GoogleAuthProvider()
+      );
+
+      if (userGoogleAuth.user) {
+        setShowToast(true);
+        setToastMessage("Login successful");
+        setToastColor("bg-green-500 text-green-900 border-green-600");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
+    } catch (error: unknown | any) {
+      console.error(error instanceof Error, error.message);
+
+      if (error instanceof FirebaseError) {
+        setShowToast(true);
+        setToastMessage("Google Login Failed, Please Try Again");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+      } else {
+        setShowToast(true);
+        setToastMessage("An Unexpected Error Occurred, Please Try Again");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+      }
+    }
+  };
 
   const onSubmit = async (data: SignupData) => {
     try {
@@ -170,6 +202,7 @@ function SignupPage() {
 
         <button
           type="button"
+          onClick={handleGoogleAuth}
           className="flex w-full items-start justify-center gap-2 hover:bg-black hover:text-white border border-black font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out"
         >
           <Mail size={20} />

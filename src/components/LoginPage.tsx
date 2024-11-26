@@ -5,9 +5,14 @@ import { Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Toast from "./Toast";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { auth } from "../util/firebaseConfig";
 import { useState } from "react";
+import { FirebaseError } from "firebase/app";
 
 type LoginData = {
   email: string;
@@ -33,6 +38,36 @@ function LoginPage() {
     resolver: yupResolver(schema),
   });
 
+  const handleGoogleAuth = async () => {
+    try {
+      const userGoogleAuth = await signInWithPopup(
+        auth,
+        new GoogleAuthProvider()
+      );
+
+      if (userGoogleAuth.user) {
+        setShowToast(true);
+        setToastMessage("Login successful");
+        setToastColor("bg-green-500 text-green-900 border-green-600");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
+    } catch (error: unknown | any) {
+      console.error(error instanceof Error, error.message);
+
+      if (error instanceof FirebaseError) {
+        setShowToast(true);
+        setToastMessage("Google Login Failed, Please Try Again");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+      } else {
+        setShowToast(true);
+        setToastMessage("An Unexpected Error Occurred, Please Try Again");
+        setToastColor("bg-red-500 text-red-900 border-red-600");
+      }
+    }
+  };
   const onSubmit = async (data: LoginData) => {
     try {
       const userCredentials = await signInWithEmailAndPassword(
@@ -114,10 +149,11 @@ function LoginPage() {
 
             <button
               type="button"
+              onClick={handleGoogleAuth}
               className="flex w-full items-start justify-center gap-2 hover:bg-black hover:text-white border border-black font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out"
             >
               <Mail size={20} />
-              Sign up with Google
+              Sign in with Google
             </button>
           </div>
 
