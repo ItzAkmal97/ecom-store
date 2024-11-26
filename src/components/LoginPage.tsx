@@ -19,9 +19,9 @@ type LoginData = {
   password: string;
 };
 function LoginPage() {
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastColor, setToastColor] = useState("");
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>("");
+  const [toastColor, setToastColor] = useState<string>("");
 
   const navigate = useNavigate();
 

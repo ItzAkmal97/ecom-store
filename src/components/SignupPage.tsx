@@ -9,6 +9,7 @@ import { createUserWithEmailAndPassword, signInWithPopup,
 import { Mail } from "lucide-react";
 import Toast from "./Toast";
 import { useState } from "react";
+import { FirebaseError } from "firebase/app";
 
 type SignupData = {
   email: string;
@@ -17,9 +18,9 @@ type SignupData = {
 };
 
 function SignupPage() {
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastColor, setToastColor] = useState("");
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>("");
+  const [toastColor, setToastColor] = useState<string>("");
   const navigate = useNavigate();
 
   const schema = yup.object().shape({
