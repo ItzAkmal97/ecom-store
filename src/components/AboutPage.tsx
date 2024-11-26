@@ -1,3 +1,4 @@
+import GoogleMaps from "./GoogleMaps";
 const AboutPage = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
@@ -54,6 +55,7 @@ const AboutPage = () => {
             <p>Hours: Monday - Friday, 9 AM - 6 PM EST</p>
           </div>
         </div>
+        <GoogleMaps />
       </div>
     </div>
   );
