@@ -13,7 +13,7 @@ function GoogleMaps() {
 
   const { isLoaded } = useLoadScript({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao",
+    googleMapsApiKey: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg",
   });
 
   const mapOptions = {
