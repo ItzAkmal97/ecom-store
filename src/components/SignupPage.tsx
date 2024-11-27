@@ -179,7 +179,7 @@ function SignupPage() {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder="Confirm Password"
               className="h-14 w-full border focus:border-black transition duration-500 ease-in-out p-2 rounded-md pr-10"
               {...register("confirmPassword")}
             />
