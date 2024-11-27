@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@react-google-maps/api": "^2.20.3",
     "@reduxjs/toolkit": "^2.3.0",
+    "@shadcn/ui": "^0.0.4",
     "firebase": "^11.0.2",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
