@@ -54,7 +54,7 @@ function LoginPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: unknown | any) {
+    } catch (error: any) {
       console.error(error instanceof Error, error.message);
 
       if (error instanceof FirebaseError) {
@@ -85,7 +85,7 @@ function LoginPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: unknown | any) {
+    } catch (error: any) {
       console.error(error instanceof Error, error.message);
 
       if (error.code === "auth/invalid-credential") {

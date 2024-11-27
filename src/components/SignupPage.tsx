@@ -77,7 +77,7 @@ function SignupPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: Error) {
+    } catch (error: any) {
       console.error(error instanceof Error, error.message);
 
       if (error instanceof FirebaseError) {
@@ -109,7 +109,7 @@ function SignupPage() {
           navigate("/login");
         }, 1000);
       }
-    } catch (error: Error) {
+    } catch (error: any) {
       console.error(error instanceof Error, error.message);
 
       if (error.code === "auth/email-already-in-use") {
