@@ -79,7 +79,7 @@ function LoginPage() {
       if (userCredentials.user) {
         setShowToast(true);
         setToastMessage("Login successful");
-        setToastColor("bg-green-500 text-green-900 border-green-600");
+        setToastColor("bg-green-500 text-green-300 border-green-600");
 
         setTimeout(() => {
           navigate("/");
@@ -90,31 +90,31 @@ function LoginPage() {
 
       if (error.code === "auth/invalid-credential") {
         setToastMessage("Invalid Email or Password, Please Try Again");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
       } else {
         setToastMessage("Login Failed");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
       }
     }
   };
   return (
     <div className="px-4 py-16 max-w-7xl mx-auto">
-      {showToast && (
-        <Toast
-          message={toastMessage}
-          colors={toastColor}
-          onClose={() => setShowToast(false)}
-          isVisible={showToast}
-        />
-      )}
       <h1 className="text-center text-3xl md:text-4xl mb-12">Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6 md:flex md:flex-row md:justify-between md:items-center md:gap-16">
           {/* Login Form */}
           <div className="flex flex-col gap-4 justify-between w-full ">
+            {showToast && (
+              <Toast
+                message={toastMessage}
+                colors={toastColor}
+                onClose={() => setShowToast(false)}
+                isVisible={showToast}
+              />
+            )}
             <h2 className="text-2xl font-semibold mb-4">Log In</h2>
             <input
               type="email"

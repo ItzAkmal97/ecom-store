@@ -11,7 +11,7 @@ function GoogleMaps() {
     lng: 74.18633586719635,
   };
 
-  const { isLoaded } = useLoadScript({
+  const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg",
   });
@@ -22,12 +22,14 @@ function GoogleMaps() {
 
   if (!isLoaded) return <div>Loading...</div>;
 
+  if (loadError) return <div>Map cannot be loaded right now</div>;
+
   return (
     <div>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={center}
-        zoom={20}
+        zoom={18}
         mapTypeId="roadmap"
         options={mapOptions}
       >

@@ -4,8 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { auth } from "../util/firebaseConfig";
-import { createUserWithEmailAndPassword, signInWithPopup,
-  GoogleAuthProvider, } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { Mail } from "lucide-react";
 import Toast from "./Toast";
 import { useState } from "react";
@@ -74,7 +77,7 @@ function SignupPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: unknown | any) {
+    } catch (error: Error) {
       console.error(error instanceof Error, error.message);
 
       if (error instanceof FirebaseError) {
@@ -100,26 +103,26 @@ function SignupPage() {
       if (userCredential.user) {
         setShowToast(true);
         setToastMessage("Registration successful");
-        setToastColor("bg-green-500 text-green-900 border-green-600");
+        setToastColor("bg-green-500 text-green-100 border-green-600");
 
         setTimeout(() => {
           navigate("/login");
         }, 1000);
       }
-    } catch (error: any) {
+    } catch (error: Error) {
       console.error(error instanceof Error, error.message);
 
       if (error.code === "auth/email-already-in-use") {
         setToastMessage("Email Already In Use");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
       } else if (error.code === "auth/invalid-email") {
         setToastMessage("Invalid Email");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
       } else {
         setToastMessage("Registration Failed");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
       }
     }
@@ -129,20 +132,20 @@ function SignupPage() {
 
   return (
     <div className="px-4 sm:flex sm:flex-col sm:justify-center sm:items-center py-16">
-      {showToast && (
-        <Toast
-          message={toastMessage}
-          isVisible={showToast}
-          onClose={() => setShowToast(false)}
-          colors={toastColor}
-        />
-      )}
       <h1 className="text-center text-3xl md:text-4xl mb-12">Register</h1>
       <form
         className="flex flex-col gap-4 mt-8 max-w-[500px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-4">
+          {showToast && (
+            <Toast
+              message={toastMessage}
+              isVisible={showToast}
+              onClose={() => setShowToast(false)}
+              colors={toastColor}
+            />
+          )}
           <input
             type="email"
             placeholder="Email"
