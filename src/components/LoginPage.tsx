@@ -13,6 +13,7 @@ import {
 import { auth } from "../util/firebaseConfig";
 import { useState } from "react";
 import { FirebaseError } from "firebase/app";
+import { Eye, EyeOff } from "lucide-react";
 
 type LoginData = {
   email: string;
@@ -22,6 +23,8 @@ function LoginPage() {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string>("");
   const [toastColor, setToastColor] = useState<string>("");
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -125,12 +128,21 @@ function LoginPage() {
             {errors.email && (
               <p className="text-red-500">{errors.email.message}</p>
             )}
-            <input
-              type="password"
-              placeholder="Password"
-              className="h-14 w-full border focus:border-black transition duration-500 ease-in-out p-2 rounded-md"
-              {...register("password")}
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="h-14 w-full border focus:border-black transition duration-500 ease-in-out p-2 rounded-md pr-10"
+                {...register("password")}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
             )}
