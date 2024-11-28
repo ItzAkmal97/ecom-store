@@ -1,35 +1,38 @@
-import React, { useState, FormEvent } from "react";
+import React, { FormEvent } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../store/store";
+import { RootState, AppDispatch } from "../store/store";
 import { clearCart } from "../features/cartSlice";
-
+import {
+  setName,
+  setEmail,
+  setProcessing,
+  setError,
+  setSuccess,
+} from "../features/stripeSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const CheckoutForm: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
+  const { name, email, processing, error, success } = useSelector(
+    (state: RootState) => state.stripe
+  );
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      setError("Stripe has not loaded");
+      dispatch(setError("Stripe has not loaded"));
       return;
     }
 
-    setProcessing(true);
-    setError(null);
+    dispatch(setProcessing(true));
+    dispatch(setError(null));
 
     try {
       const cardElement = elements.getElement(CardElement);
@@ -74,18 +77,20 @@ const CheckoutForm: React.FC = () => {
         throw new Error(paymentResult.error.message || "Payment failed");
       }
 
-      setSuccess(true);
-      setProcessing(false);
+      dispatch(setSuccess(true));
+      dispatch(setProcessing(false));
       setTimeout(() => {
         dispatch(clearCart());
         navigate("/");
       }, 2000);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred"
+      dispatch(
+        setError(
+          err instanceof Error ? err.message : "An unexpected error occurred"
+        )
       );
       console.error("Payment Error:", err);
-      setProcessing(false);
+      dispatch(setProcessing(false));
     }
   };
 
@@ -93,7 +98,10 @@ const CheckoutForm: React.FC = () => {
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
       <div className="pr-2">
         {items.map((item) => (
-          <div key={item.id} className="flex justify-between items-center p-2 border-b">
+          <div
+            key={item.id}
+            className="flex justify-between items-center p-2 border-b"
+          >
             <img
               src={item.thumbnail}
               alt={item.title}
@@ -104,7 +112,7 @@ const CheckoutForm: React.FC = () => {
               <p className="text-gray-500">${item.price.toFixed(2)}</p>
             </div>
             <div className="ml-4">
-             {`${item.quantity} x ${item.price.toFixed(2)}`}
+              {`${item.quantity} x ${item.price.toFixed(2)}`}
             </div>
           </div>
         ))}
@@ -130,7 +138,7 @@ const CheckoutForm: React.FC = () => {
               <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => dispatch(setName(e.target.value))}
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
                 placeholder="Name"
@@ -144,7 +152,7 @@ const CheckoutForm: React.FC = () => {
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => dispatch(setEmail(e.target.value))}
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
                 placeholder="Email Address"
