@@ -23,25 +23,21 @@ const CheckoutForm: React.FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    // Validate inputs
     if (!stripe || !elements) {
       setError("Stripe has not loaded");
       return;
     }
 
-    // Reset previous states
     setProcessing(true);
     setError(null);
 
     try {
-      // Get card element
       const cardElement = elements.getElement(CardElement);
 
       if (!cardElement) {
         throw new Error("Card element not found");
       }
 
-      // Create payment intent
       const response = await fetch(
         "http://localhost:5000/create-payment-intent",
         {
@@ -57,16 +53,13 @@ const CheckoutForm: React.FC = () => {
         }
       );
 
-      // Check if response is ok
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Payment intent creation failed");
       }
 
-      // Parse response
       const { clientSecret } = await response.json();
 
-      // Confirm card payment
       const paymentResult = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardElement,
@@ -77,20 +70,17 @@ const CheckoutForm: React.FC = () => {
         },
       });
 
-      // Handle payment result
       if (paymentResult.error) {
         throw new Error(paymentResult.error.message || "Payment failed");
       }
 
-      // Payment successful
       setSuccess(true);
       setProcessing(false);
       setTimeout(() => {
         dispatch(clearCart());
         navigate("/");
-      }, 1000);
+      }, 2000);
     } catch (err) {
-      // Handle any errors
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred"
       );
