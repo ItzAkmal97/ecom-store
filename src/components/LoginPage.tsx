@@ -57,8 +57,8 @@ function LoginPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: any) {
-      console.error(error instanceof Error, error.message);
+    } catch (error: unknown) {
+      console.error(typeof error, error);
 
       if (error instanceof FirebaseError) {
         setShowToast(true);
@@ -88,10 +88,13 @@ function LoginPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: any) {
-      console.error(error instanceof Error, error.message);
+    } catch (error: unknown) {
+      console.error(typeof error, error);
 
-      if (error.code === "auth/invalid-credential") {
+      if (
+        error instanceof FirebaseError &&
+        error.code === "auth/invalid-credential"
+      ) {
         setToastMessage("Invalid Email or Password, Please Try Again");
         setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);

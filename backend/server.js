@@ -1,34 +1,51 @@
-import express from 'express';
-import Stripe from 'stripe';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import express from "express";
+import Stripe from "stripe";
+import cors from "cors";
 
 const app = express();
-const stripe = new Stripe("sk_test_51QQ0a1JNKAgioTIIyuqzwX1x51dfnhHdNeC1s7HxMreE8QwAqQen6y9FnFJmVkRxGYZbUu4d4JqmH579EBW67bi500ZUdngC4e");
+const stripe = new Stripe(
+  "sk_test_51QQ0a1JNKAgioTIIyuqzwX1x51dfnhHdNeC1s7HxMreE8QwAqQen6y9FnFJmVkRxGYZbUu4d4JqmH579EBW67bi500ZUdngC4e"
+);
 
-app.use(cors());
-app.use(bodyParser.json());
+// Update CORS configuration
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000", // Frontend React app
+      "http://localhost:5000",
+      "http://localhost:5173", // Explicitly allow server port
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-app.post('/create-payment-intent', async (req, res) => {
+app.use(express.json());
+
+// Create Payment Intent Route
+app.post("/create-payment-intent", async (req, res) => {
+  const { amount, email, name } = req.body;
+
   try {
-    const { amount } = req.body;
-
-    // Create a PaymentIntent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount, // Amount in cents
-      currency: 'usd',
+      amount: amount,
+      currency: "usd",
+      payment_method_types: ["card"],
+      receipt_email: email,
+      metadata: {
+        name: name,
+      },
     });
 
     res.send({
       clientSecret: paymentIntent.client_secret,
     });
-  } catch (error) {
-    res.status(400).send({ error: error.message });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
   }
 });
 
 const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

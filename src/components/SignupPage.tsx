@@ -80,8 +80,8 @@ function SignupPage() {
           navigate("/");
         }, 1000);
       }
-    } catch (error: any) {
-      console.error(error instanceof Error, error.message);
+    } catch (error: unknown) {
+      console.error(error instanceof FirebaseError, error);
 
       if (error instanceof FirebaseError) {
         setShowToast(true);
@@ -112,14 +112,20 @@ function SignupPage() {
           navigate("/login");
         }, 1000);
       }
-    } catch (error: any) {
-      console.error(error instanceof Error, error.message);
+    } catch (error: unknown) {
+      console.error(error instanceof FirebaseError, error);
 
-      if (error.code === "auth/email-already-in-use") {
+      if (
+        error instanceof FirebaseError &&
+        error.code === "auth/email-already-in-use"
+      ) {
         setToastMessage("Email Already In Use");
         setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
-      } else if (error.code === "auth/invalid-email") {
+      } else if (
+        error instanceof FirebaseError &&
+        error.code === "auth/invalid-email"
+      ) {
         setToastMessage("Invalid Email");
         setToastColor("bg-red-500 text-red-100 border-red-600");
         setShowToast(true);
