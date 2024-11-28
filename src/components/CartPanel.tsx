@@ -1,7 +1,12 @@
-import { Plus, Minus, Trash2  } from "lucide-react";
+import { Plus, Minus, Trash2 } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
-import {  removeFromCart, clearCart, increaseQuantity } from "../features/cartSlice";
+import {
+  removeFromCart,
+  clearCart,
+  increaseQuantity,
+} from "../features/cartSlice";
+import { NavLink } from "react-router-dom";
 
 export const CartPanel = () => {
   const dispatch = useDispatch();
@@ -58,14 +63,15 @@ export const CartPanel = () => {
             <span className="font-medium">${totalAmount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between gap-4">
-          <button className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200">
-            Checkout
-          </button>
-          <button onClick={() => dispatch(clearCart())}>
-            <Trash2 size={30}/>
-          </button>
+            <NavLink to={"/checkout"}>
+              <button className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200">
+                Checkout
+              </button>
+            </NavLink>
+            <button onClick={() => dispatch(clearCart())}>
+              <Trash2 size={30} />
+            </button>
           </div>
-          
         </div>
       )}
     </div>

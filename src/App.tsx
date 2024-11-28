@@ -5,6 +5,7 @@ import Error from "./pages/Error";
 import Products from "./pages/Products";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +19,7 @@ function App() {
         { path: "/products", element: <Products /> },
         { path: "/login", element: <Login /> },
         { path: "/signup", element: <Signup /> },
+        { path: "/checkout", element: <Checkout /> },
       ],
     },
   ]);

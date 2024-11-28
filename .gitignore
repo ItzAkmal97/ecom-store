@@ -7,10 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Runtime-generated folders
 node_modules
 dist
 dist-ssr
 *.local
+
+# Sensitive environment files
+.env
 
 # Editor directories and files
 .vscode/*
