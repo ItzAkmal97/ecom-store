@@ -63,8 +63,8 @@ export const CartPanel = () => {
             <span className="font-medium">${totalAmount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between gap-4">
-            <NavLink to={"/checkout"}>
-              <button className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200">
+            <NavLink to={"/checkout"} className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200">
+              <button className="w-full">
                 Checkout
               </button>
             </NavLink>
