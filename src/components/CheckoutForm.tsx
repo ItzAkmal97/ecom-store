@@ -93,7 +93,7 @@ const CheckoutForm: React.FC = () => {
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
       <div className="pr-2">
         {items.map((item) => (
-          <div key={item.id} className="flex p-4 border-b">
+          <div key={item.id} className="flex justify-between items-center p-2 border-b">
             <img
               src={item.thumbnail}
               alt={item.title}
@@ -104,7 +104,7 @@ const CheckoutForm: React.FC = () => {
               <p className="text-gray-500">${item.price.toFixed(2)}</p>
             </div>
             <div className="ml-4">
-              ${(item.price * item.quantity).toFixed(2)}
+             {`${item.quantity} x ${item.price.toFixed(2)}`}
             </div>
           </div>
         ))}
@@ -133,7 +133,7 @@ const CheckoutForm: React.FC = () => {
                 onChange={(e) => setName(e.target.value)}
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
-                placeholder="John Doe"
+                placeholder="Name"
               />
             </div>
 
@@ -147,7 +147,7 @@ const CheckoutForm: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
-                placeholder="john@example.com"
+                placeholder="Email Address"
               />
             </div>
 
