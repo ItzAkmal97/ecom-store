@@ -2,8 +2,9 @@ import React, { useState, FormEvent } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../store/store";
+import { clearCart } from "../features/cartSlice";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const CheckoutForm: React.FC = () => {
   const [name, setName] = useState("");
@@ -15,6 +16,7 @@ const CheckoutForm: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
 
@@ -48,7 +50,7 @@ const CheckoutForm: React.FC = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            amount: Math.round(totalAmount * 100), // convert to cents
+            amount: Math.round(totalAmount * 100),
             email,
             name,
           }),
@@ -84,6 +86,7 @@ const CheckoutForm: React.FC = () => {
       setSuccess(true);
       setProcessing(false);
       setTimeout(() => {
+        dispatch(clearCart());
         navigate("/");
       }, 1000);
     } catch (err) {
@@ -98,7 +101,7 @@ const CheckoutForm: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <div className="space-y-4 pr-2">
+      <div className="pr-2">
         {items.map((item) => (
           <div key={item.id} className="flex p-4 border-b">
             <img
