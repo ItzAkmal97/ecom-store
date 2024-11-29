@@ -7,13 +7,11 @@ const stripe = new Stripe(
   "sk_test_51QQ0a1JNKAgioTIIyuqzwX1x51dfnhHdNeC1s7HxMreE8QwAqQen6y9FnFJmVkRxGYZbUu4d4JqmH579EBW67bi500ZUdngC4e"
 );
 
-// Update CORS configuration
 app.use(
   cors({
     origin: [
-      "http://localhost:3000", // Frontend React app
       "http://localhost:5000",
-      "http://localhost:5173", // Explicitly allow server port
+      "http://localhost:5173",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -22,7 +20,6 @@ app.use(
 
 app.use(express.json());
 
-// Create Payment Intent Route
 app.post("/create-payment-intent", async (req, res) => {
   const { amount, email, name } = req.body;
 

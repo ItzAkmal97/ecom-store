@@ -11,20 +11,21 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../util/firebaseConfig";
-import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { Eye, EyeOff } from "lucide-react";
+import { setShowPassword, setShowToast, setToastColor, setToastMessage } from "../features/loginSignupSlice";
+import { RootState } from "../store/store";
+import { useSelector, useDispatch } from "react-redux";
+
 
 type LoginData = {
   email: string;
   password: string;
 };
 function LoginPage() {
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>("");
-  const [toastColor, setToastColor] = useState<string>("");
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const {showToast, showPassword, toastColor, toastMessage } = useSelector((state: RootState) => state.loginSignup);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -49,9 +50,9 @@ function LoginPage() {
       );
 
       if (userGoogleAuth.user) {
-        setShowToast(true);
-        setToastMessage("Login successful");
-        setToastColor("bg-green-500 text-green-900 border-green-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("Login successful"));
+        dispatch(setToastColor("bg-green-500 text-green-900 border-green-600"));
 
         setTimeout(() => {
           navigate("/");
@@ -61,16 +62,17 @@ function LoginPage() {
       console.error(typeof error, error);
 
       if (error instanceof FirebaseError) {
-        setShowToast(true);
-        setToastMessage("Google Login Failed, Please Try Again");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("Google Login Failed, Please Try Again"));
+        dispatch(setToastColor("bg-red-500 text-red-900 border-red-600"));
       } else {
-        setShowToast(true);
-        setToastMessage("An Unexpected Error Occurred, Please Try Again");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("An Unexpected Error Occurred, Please Try Again"));
+        dispatch(setToastColor("bg-red-500 text-red-900 border-red-600"));
       }
     }
   };
+
   const onSubmit = async (data: LoginData) => {
     try {
       const userCredentials = await signInWithEmailAndPassword(
@@ -80,9 +82,9 @@ function LoginPage() {
       );
 
       if (userCredentials.user) {
-        setShowToast(true);
-        setToastMessage("Login successful");
-        setToastColor("bg-green-500 text-green-300 border-green-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("Login successful"));
+        dispatch(setToastColor("bg-green-500 text-green-300 border-green-600"));
 
         setTimeout(() => {
           navigate("/");
@@ -95,16 +97,17 @@ function LoginPage() {
         error instanceof FirebaseError &&
         error.code === "auth/invalid-credential"
       ) {
-        setToastMessage("Invalid Email or Password, Please Try Again");
-        setToastColor("bg-red-500 text-red-100 border-red-600");
-        setShowToast(true);
+        dispatch(setToastMessage("Invalid Email or Password, Please Try Again"));
+        dispatch(setToastColor("bg-red-500 text-red-100 border-red-600"));
+        dispatch(setShowToast(true));
       } else {
-        setToastMessage("Login Failed");
-        setToastColor("bg-red-500 text-red-100 border-red-600");
-        setShowToast(true);
+        dispatch(setToastMessage("Login Failed"));
+        dispatch(setToastColor("bg-red-500 text-red-100 border-red-600"));
+        dispatch(setShowToast(true));
       }
     }
   };
+  
   return (
     <div className="px-4 py-16 max-w-7xl mx-auto">
       <h1 className="text-center text-3xl md:text-4xl mb-12">Log In</h1>
@@ -117,7 +120,7 @@ function LoginPage() {
               <Toast
                 message={toastMessage}
                 colors={toastColor}
-                onClose={() => setShowToast(false)}
+                onClose={() => dispatch(setShowToast(false))}
                 isVisible={showToast}
               />
             )}
@@ -140,7 +143,7 @@ function LoginPage() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => dispatch(setShowPassword(!showPassword))}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}

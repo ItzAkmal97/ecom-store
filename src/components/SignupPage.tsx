@@ -11,9 +11,16 @@ import {
 } from "firebase/auth";
 import { Mail } from "lucide-react";
 import Toast from "./Toast";
-import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { Eye, EyeOff } from "lucide-react";
+import { RootState } from "../store/store";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setShowPassword,
+  setShowToast,
+  setToastColor,
+  setToastMessage,
+} from "../features/loginSignupSlice";
 
 type SignupData = {
   email: string;
@@ -22,12 +29,12 @@ type SignupData = {
 };
 
 function SignupPage() {
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>("");
-  const [toastColor, setToastColor] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
   const navigate = useNavigate();
+  const { showPassword, showToast, toastColor, toastMessage } = useSelector(
+    (state: RootState) => state.loginSignup
+  );
+
+  const dispatch = useDispatch();
 
   const schema = yup.object().shape({
     email: yup.string().email().required("Email is required"),
@@ -72,9 +79,9 @@ function SignupPage() {
       );
 
       if (userGoogleAuth.user) {
-        setShowToast(true);
-        setToastMessage("Login successful");
-        setToastColor("bg-green-500 text-green-900 border-green-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("Login successful"));
+        dispatch(setToastColor("bg-green-500 text-green-900 border-green-600"));
 
         setTimeout(() => {
           navigate("/");
@@ -84,13 +91,15 @@ function SignupPage() {
       console.error(error instanceof FirebaseError, error);
 
       if (error instanceof FirebaseError) {
-        setShowToast(true);
-        setToastMessage("Google Login Failed, Please Try Again");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("Google Login Failed, Please Try Again"));
+        dispatch(setToastColor("bg-red-500 text-red-900 border-red-600"));
       } else {
-        setShowToast(true);
-        setToastMessage("An Unexpected Error Occurred, Please Try Again");
-        setToastColor("bg-red-500 text-red-900 border-red-600");
+        dispatch(setShowToast(true));
+        dispatch(
+          setToastMessage("An Unexpected Error Occurred, Please Try Again")
+        );
+        dispatch(setToastColor("bg-red-500 text-red-900 border-red-600"));
       }
     }
   };
@@ -104,9 +113,9 @@ function SignupPage() {
       );
 
       if (userCredential.user) {
-        setShowToast(true);
-        setToastMessage("Registration successful");
-        setToastColor("bg-green-500 text-green-100 border-green-600");
+        dispatch(setShowToast(true));
+        dispatch(setToastMessage("Registration successful"));
+        dispatch(setToastColor("bg-green-500 text-green-100 border-green-600"));
 
         setTimeout(() => {
           navigate("/login");
@@ -119,20 +128,20 @@ function SignupPage() {
         error instanceof FirebaseError &&
         error.code === "auth/email-already-in-use"
       ) {
-        setToastMessage("Email Already In Use");
-        setToastColor("bg-red-500 text-red-100 border-red-600");
-        setShowToast(true);
+        dispatch(setToastMessage("Email Already In Use"));
+        dispatch(setToastColor("bg-red-500 text-red-100 border-red-600"));
+        dispatch(setShowToast(true));
       } else if (
         error instanceof FirebaseError &&
         error.code === "auth/invalid-email"
       ) {
-        setToastMessage("Invalid Email");
-        setToastColor("bg-red-500 text-red-100 border-red-600");
-        setShowToast(true);
+        dispatch(setToastMessage("Invalid Email"));
+        dispatch(setToastColor("bg-red-500 text-red-100 border-red-600"));
+        dispatch(setShowToast(true));
       } else {
-        setToastMessage("Registration Failed");
-        setToastColor("bg-red-500 text-red-100 border-red-600");
-        setShowToast(true);
+        dispatch(setToastMessage("Registration Failed"));
+        dispatch(setToastColor("bg-red-500 text-red-100 border-red-600"));
+        dispatch(setShowToast(true));
       }
     }
 
@@ -151,7 +160,7 @@ function SignupPage() {
             <Toast
               message={toastMessage}
               isVisible={showToast}
-              onClose={() => setShowToast(false)}
+              onClose={() => dispatch(setShowToast(false))}
               colors={toastColor}
             />
           )}
@@ -173,7 +182,7 @@ function SignupPage() {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => dispatch(setShowPassword(!showPassword))}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -191,7 +200,7 @@ function SignupPage() {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => dispatch(setShowPassword(!showPassword))}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
