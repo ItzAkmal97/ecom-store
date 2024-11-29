@@ -3,9 +3,8 @@ import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import CartIcon from "./CartIcon";
 import { CartPanel } from "./CartPanel";
-
 function Header() {
-  const [isScroll, setIsScroll] = useState(false);
+  const [isScroll, setIsScroll] = useState<boolean>(false);
 
   const handleHeaderShadow = () => {
     setIsScroll(window.scrollY > 0);
@@ -132,7 +131,7 @@ function Header() {
       >
         <div className="p-6">
           <label
-            htmlFor="cart-toggle"
+            htmlFor='cart-toggle'
             className="absolute top-6 right-6 cursor-pointer"
           >
             <X className="h-8 w-8" />

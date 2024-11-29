@@ -13,18 +13,23 @@ import {
 import { auth } from "../util/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { Eye, EyeOff } from "lucide-react";
-import { setShowPassword, setShowToast, setToastColor, setToastMessage } from "../features/loginSignupSlice";
+import {
+  setShowPassword,
+  setShowToast,
+  setToastColor,
+  setToastMessage,
+} from "../features/loginSignupSlice";
 import { RootState } from "../store/store";
 import { useSelector, useDispatch } from "react-redux";
-
 
 type LoginData = {
   email: string;
   password: string;
 };
 function LoginPage() {
-
-  const {showToast, showPassword, toastColor, toastMessage } = useSelector((state: RootState) => state.loginSignup);
+  const { showToast, showPassword, toastColor, toastMessage } = useSelector(
+    (state: RootState) => state.loginSignup
+  );
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -67,7 +72,9 @@ function LoginPage() {
         dispatch(setToastColor("bg-red-500 text-red-900 border-red-600"));
       } else {
         dispatch(setShowToast(true));
-        dispatch(setToastMessage("An Unexpected Error Occurred, Please Try Again"));
+        dispatch(
+          setToastMessage("An Unexpected Error Occurred, Please Try Again")
+        );
         dispatch(setToastColor("bg-red-500 text-red-900 border-red-600"));
       }
     }
@@ -97,7 +104,9 @@ function LoginPage() {
         error instanceof FirebaseError &&
         error.code === "auth/invalid-credential"
       ) {
-        dispatch(setToastMessage("Invalid Email or Password, Please Try Again"));
+        dispatch(
+          setToastMessage("Invalid Email or Password, Please Try Again")
+        );
         dispatch(setToastColor("bg-red-500 text-red-100 border-red-600"));
         dispatch(setShowToast(true));
       } else {
@@ -107,7 +116,7 @@ function LoginPage() {
       }
     }
   };
-  
+
   return (
     <div className="px-4 py-16 max-w-7xl mx-auto">
       <h1 className="text-center text-3xl md:text-4xl mb-12">Log In</h1>
@@ -183,11 +192,13 @@ function LoginPage() {
               and promotions. To opt out, click unsubscribe in our emails.
             </p>
 
-            <NavLink to={"/signup"}>
-              <button className="bg-black text-white font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out mt-4">
-                Register
-              </button>
-            </NavLink>
+            <div>
+              <NavLink to={"/signup"}>
+                <button className="bg-black text-white font-semibold py-3 px-6 rounded-md hover:transform hover:scale-105 duration-300 ease-in-out mt-4">
+                  Register
+                </button>
+              </NavLink>
+            </div>
           </div>
         </div>
       </form>

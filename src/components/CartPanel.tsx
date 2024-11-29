@@ -6,12 +6,25 @@ import {
   clearCart,
   increaseQuantity,
 } from "../features/cartSlice";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const CartPanel = () => {
   const dispatch = useDispatch();
   const { items, totalAmount } = useSelector((state: RootState) => state.cart);
 
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+
+    const cartToggle = document.getElementById(
+      "cart-toggle"
+    ) as HTMLInputElement;
+    if (cartToggle) {
+      cartToggle.checked = false;
+    }
+
+    navigate("/checkout");
+  };
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 overflow-y-auto max-h-[calc(100vh-200px)] pr-2">
@@ -63,11 +76,13 @@ export const CartPanel = () => {
             <span className="font-medium">${totalAmount.toFixed(2)}</span>
           </div>
           <div className="flex justify-between gap-4">
-            <NavLink to={"/checkout"} className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200">
-              <button className="w-full">
-                Checkout
-              </button>
-            </NavLink>
+            <button
+              onClick={handleCheckout}
+              className="w-full bg-black text-white py-3 hover:bg-gray-800 transition-colors duration-200"
+            >
+              Checkout
+            </button>
+
             <button onClick={() => dispatch(clearCart())}>
               <Trash2 size={30} />
             </button>

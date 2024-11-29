@@ -96,106 +96,117 @@ const CheckoutForm: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <div className="pr-2">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between items-center p-2 border-b"
-          >
-            <img
-              src={item.thumbnail}
-              alt={item.title}
-              className="w-20 h-20 object-cover"
-            />
-            <div className="ml-4 flex-1">
-              <h3 className="font-medium">{item.title}</h3>
-              <p className="text-gray-500">${item.price.toFixed(2)}</p>
-            </div>
-            <div className="ml-4">
-              {`${item.quantity} x ${item.price.toFixed(2)}`}
-            </div>
-          </div>
-        ))}
-        {items.length > 0 && (
-          <div className="flex justify-between items-center mb-4">
-            <span className="font-medium">Total</span>
-            <span className="font-medium">${totalAmount.toFixed(2)}</span>
-          </div>
-        )}
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Payment Form
-        </h2>
-        {success ? (
-          <div className="text-green-600 text-center">
-            Payment Successful! Thank you for your purchase.
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => dispatch(setName(e.target.value))}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
-                placeholder="Name"
+      {items.length > 0 ? (
+        <div className="pr-2">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="flex justify-between items-center p-2 border-b"
+            >
+              <img
+                src={item.thumbnail}
+                alt={item.title}
+                className="w-20 h-20 object-cover"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => dispatch(setEmail(e.target.value))}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
-                placeholder="Email Address"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Card Details
-              </label>
-              <div className="mt-1 border border-gray-300 rounded-md p-3">
-                <CardElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: "16px",
-                        color: "#424770",
-                      },
-                      invalid: {
-                        color: "#9e2146",
-                      },
-                    },
-                  }}
-                />
+              <div className="ml-4 flex-1">
+                <h3 className="font-medium">{item.title}</h3>
+                <p className="text-gray-500">${item.price.toFixed(2)}</p>
+              </div>
+              <div className="ml-4">
+                {`${item.quantity} x ${item.price.toFixed(2)}`}
               </div>
             </div>
+          ))}
+          {items.length > 0 && (
+            <div className="flex justify-between items-center mb-4">
+              <span className="font-medium">Total</span>
+              <span className="font-medium">${totalAmount.toFixed(2)}</span>
+            </div>
+          )}
+          <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+            Payment Form
+          </h2>
+          {success ? (
+            <div className="text-green-600 text-center">
+              Payment Successful! Thank you for your purchase.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => dispatch(setName(e.target.value))}
+                  required
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+                  placeholder="Name"
+                />
+              </div>
 
-            {error && <div className="text-red-600 text-sm">{error}</div>}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => dispatch(setEmail(e.target.value))}
+                  required
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"
+                  placeholder="Email Address"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={processing}
-              className={`w-full py-3 rounded-md text-white font-semibold ${
-                processing
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-              {processing ? "Processing..." : "Pay Now"}
-            </button>
-          </form>
-        )}
-      </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Card Details
+                </label>
+                <div className="mt-1 border border-gray-300 rounded-md p-3">
+                  <CardElement
+                    options={{
+                      style: {
+                        base: {
+                          fontSize: "16px",
+                          color: "#424770",
+                        },
+                        invalid: {
+                          color: "#9e2146",
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+
+              {error && <div className="text-red-600 text-sm">{error}</div>}
+
+              <button
+                type="submit"
+                disabled={processing}
+                className={`w-full py-3 rounded-md text-white font-semibold ${
+                  processing
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
+              >
+                {processing ? "Processing..." : "Pay Now"}
+              </button>
+            </form>
+          )}
+        </div>
+      ) : (
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">
+            Your Cart is Empty
+          </h2>
+          <p className="text-gray-600">
+            Add items to your cart to make a purchase.
+          </p>
+        </div>
+      )}
     </div>
   );
 };
